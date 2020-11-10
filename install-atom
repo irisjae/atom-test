@@ -1,0 +1,12 @@
+wget https://storage.accesstomemory.org/releases/atom-2.6.1.tar.gz
+sudo mkdir /usr/share/nginx/atom
+sudo tar xzf atom-2.6.1.tar.gz -C /usr/share/nginx/atom --strip 1
+sudo chown -R www-data:www-data /usr/share/nginx/atom
+echo Please enter your password for the ATOM database user:
+read pw
+echo Logging in to the Database root user...
+sudo mysql -h localhost -u root -p -e "CREATE DATABASE atom CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+echo Logging in to the Database root user one more time...
+sudo mysql -h localhost -u root -p -e "CREATE USER 'atom'@'localhost' IDENTIFIED BY '$pw';"
+echo Logging in to the Database root user last time...
+sudo mysql -h localhost -u root -p -e "GRANT ALL PRIVILEGES ON atom.* TO 'atom'@'localhost';"
